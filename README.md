@@ -16,3 +16,6 @@ Task Deletion: Unnecessary tasks can be removed. Users can delete tasks individu
 
 Backend Functionality
 Data Storage: All tasks will be stored in a MongoDB Altas database, ensuring data persistence and reliability.
+
+Deploy Link:
+https://tutedude-mern-todo-permanent.onrender.com
