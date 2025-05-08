@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="box">
+    <!-- <div class="box">
         <h1>Todo List</h1>
     </div>
 
@@ -25,7 +25,45 @@
             <input type="text" name="ele1" placeholder="Enter your item">
             <button type="submit">+</button>
         </form>
+    </div> -->
+
+    <div class="box">
+        <h1>Todo List</h1>
     </div>
+
+    <div class="box">
+        <% dayej.forEach(function(item) { %>
+            <div class="item">
+                <!-- Delete Checkbox -->
+                <form action="/delete" method="POST">
+                    <input type="checkbox" name="checkbox1" value="<%= item.id %>" onChange="this.form.submit()">
+                </form>
+
+                <% if (editId === item.id) { %>
+                    <!-- Inline Edit Form -->
+                    <form action="/" method="POST" style="flex: 1; display: flex;">
+                        <input type="text" name="ele1" value="<%= item.name %>" required>
+                        <input type="hidden" name="id" value="<%= item.id %>">
+                        <button type="submit">✅</button>
+                    </form>
+                <% } else { %>
+                    <!-- Display Task with Edit Button -->
+                    <p style="flex: 1; margin: 0;"><%= item.name %></p>
+                    <form action="/edit" method="POST">
+                        <input type="hidden" name="id" value="<%= item.id %>">
+                        <button type="submit" title="Edit Task">✏️</button>
+                    </form>
+                <% } %>
+            </div>
+        <% }); %>
+
+        <!-- Add New Task -->
+        <form class="item" action="/" method="POST">
+            <input type="text" name="ele1" placeholder="Enter your item" required>
+            <button type="submit">+</button>
+        </form>
+    </div>
+    
     
 
     <script>
@@ -37,60 +75,68 @@
     </script>
 
     <style>
-        html{
+       html {
     background-color: #E4E9FD;
-    background-image: -webkit-linear-gradient(65deg, #A683E3 50%,#E4E9FD 50%);
+    background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
     min-height: 1000px;
     font-family: 'helvetica neue';
 }
 
-h1{
+h1 {
     color: #000;
     padding: 10px;
 }
 
-.box{
-    max-width: 400px;
+.box {
+    max-width: 600px;
     margin: 50px auto;
     background: white;
     border-radius: 5px;
-    box-shadow: 5px 5px 15px -5px rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
-#heading{
+#heading {
     background-color: #A683E3;
     text-align: center;
 }
-.item{
+
+.item {
     min-height: 70px;
     display: flex;
-    text-align: center;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid #F1F1F1;
+    padding: 0 10px;
 }
-.item:last-child{
+
+.item:last-child {
     border-radius: 0;
 }
-input:checked+p{
+
+input:checked + p {
     text-decoration: line-through;
     text-decoration-color: #A683E3;
 }
-input[type="checkbox"]{
+
+input[type="checkbox"] {
     margin: 20px;
-    
 }
-p{
+
+p {
     margin: 0;
-    padding: 20px;
+    padding: 20px 10px;
     font-size: 20px;
     font-weight: 200;
     color: #00204a;
-    text-align: center;
+    /* Removed text-align: center */
 }
-form{
+
+form {
     text-align: center;
     margin-left: 20px;
 }
-button{
+
+button {
     min-height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -101,31 +147,41 @@ button{
     padding-bottom: 6px;
     border-width: 0;
 }
-input[type="text"]{
-    text-align: center;
+
+input[type="text"] {
+    text-align: left;
     height: 60px;
-    top:10px;
+    top: 10px;
     border: none;
     background: transparent;
     font-size: 20px;
     font-weight: 200;
     width: 313px;
+    padding: 0 10px;
 }
-input[type="text"]:focus{
+
+input[type="text"]:focus {
     outline: none;
     box-shadow: inset 0 -3px 0 0 #A683E3;
 }
 
-::placeholder{
+::placeholder {
     color: grey;
     opacity: 1;
 }
 
-footer{
-    color: white;
-    color: rgba(0,0,0,0.5);
+footer {
+    color: rgba(0, 0, 0, 0.5);
     text-align: center;
 }
+
+.edit-btn {
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+
     </style>
 </body>
 </html>
