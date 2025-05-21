@@ -113,46 +113,50 @@
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>Todo List</h1>
 
-        <% dayej.forEach(function(item) { %>
-            <div class="item">
-                <% if (editId === item.id) { %>
-                    <!-- Edit Mode -->
-                    <form action="/" method="POST" style="display: flex; flex: 1;">
-                        <input type="text" name="ele1" value="<%= item.name %>" required>
-                        <input type="hidden" name="id" value="<%= item.id %>">
-                        <button type="submit">✅</button>
-                    </form>
-                <% } else { %>
-                    <!-- Normal Mode -->
-                    <input type="checkbox" onclick="toggleStrike(this)">
-                    <div class="item-content"><%= item.name %></div>
-                    <form action="/edit" method="POST">
-                        <input type="hidden" name="id" value="<%= item.id %>">
-                        <button title="Edit Task">✏️</button>
-                    </form>
-                    <form action="/delete" method="POST">
-                        <input type="hidden" name="id" value="<%= item.id %>">
-                        <button title="Delete Task">🗑️</button>
-                    </form>
-                <% } %>
-            </div>
-        <% }); %>
+<div class="box">
+    <h1>Todo List</h1>
 
-        <!-- Add New Task -->
-        <form class="item" action="/" method="POST">
-            <input type="text" name="ele1" placeholder="Enter your item" required>
-            <button type="submit">+</button>
-        </form>
-    </div>
+    <% tasks.forEach(function(item) { %>
+        <div class="item">
+            <% if (editId === item.id) { %>
+                <!-- Edit Mode -->
+                <form action="/" method="POST" style="flex: 1;">
+                    <input type="text" name="ele1" value="<%= item.name %>" required>
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                    <button type="submit">✅</button>
+                </form>
+            <% } else { %>
+                <!-- Normal Mode -->
+                <input type="checkbox" onclick="toggleStrike(this)">
+                <div class="item-content"><%= item.name %></div>
+                <form action="/edit" method="POST">
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                    <button type="submit" title="Edit Task">✏️</button>
+                </form>
+                <button onclick="deleteTask('<%= item.id %>')">🗑️</button>
+            <% } %>
+        </div>
+    <% }); %>
 
-    <script>
-        function toggleStrike(checkbox) {
-            const taskText = checkbox.nextElementSibling;
-            taskText.classList.toggle("completed");
-        }
-    </script>
+    <!-- Add New Task -->
+    <form class="item" action="/" method="POST">
+        <input type="text" name="ele1" placeholder="Enter your item" required>
+        <button type="submit">+</button>
+    </form>
+</div>
+
+<script>
+    function toggleStrike(checkbox) {
+        const taskText = checkbox.nextElementSibling;
+        taskText.classList.toggle("completed");
+    }
+
+    function deleteTask(id) {
+        fetch(`/task/${id}`, {
+            method: "DELETE"
+        }).then(() => window.location.reload());
+    }
+</script>
 </body>
 </html>
